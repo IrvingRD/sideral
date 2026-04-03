@@ -12,12 +12,10 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
 
-
 os.environ["ANTHROPIC_API_KEY"] = ANTROPIC_API_KEY
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 os.environ["GEMINI_API_KEY"] = GEMINI_API_KEY
 os.environ["DEEPSEEK_API_KEY"] = DEEPSEEK_API_KEY
-
 
 # client = OpenAI()
 client = Anthropic()
