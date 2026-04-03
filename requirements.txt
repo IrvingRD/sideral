@@ -83,11 +83,11 @@ grpcio==1.78.0
     #   tensorflow-cpu
 h11==0.16.0
     # via httpcore
-h5py==3.14.0
-    # via
-    #   keras
-    #   tensorflow
-    #   tensorflow-cpu
+# h5py==3.14.0
+#     # via
+#     #   keras
+#     #   tensorflow
+#     #   tensorflow-cpu
 hf-xet==1.4.3 ; platform_machine == 'AMD64' or platform_machine == 'aarch64' or platform_machine == 'amd64' or platform_machine == 'arm64' or platform_machine == 'x86_64'
     # via huggingface-hub
 httpcore==1.0.9
