@@ -4,3 +4,6 @@ plotly
 scikit-learn
 python-dotenv
 tf-nightly-cpu
+huggingface-hub
+openai
+anthropic
