@@ -3,4 +3,4 @@ pandas
 plotly
 scikit-learn
 python-dotenv
-tensorflow-cpu==2.21.0rc1
+tf-nightly-cpu
