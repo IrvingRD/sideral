@@ -1,7 +1,6 @@
 streamlit
-pandas<3
-numpy==1.26.4
-tensorflow-cpu==2.16.1
+pandas
 plotly
 scikit-learn
 python-dotenv
+tensorflow-cpu==2.21.0rc1
