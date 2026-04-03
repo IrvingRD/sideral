@@ -1,0 +1,48 @@
+{
+  "galaxies": [
+    {
+      "id": "IC1101",
+      "name": "IC 1101",
+      "designation": "IC 1101",
+      "class": "elliptical",
+      "distance_ly": "23 ly",
+      "constellation": "Virgo",
+      "credit": "ESA/Hubble & NASA",
+      "description": "Galaxia más grande conocida en el universo.",
+      "image_file": "elliptical/ic-1101.jpg"
+    },
+    {
+      "id": "M103",
+      "name": "Messier 103",
+      "designation": "Galaxia del sombrero",
+      "class": "edge_on",
+      "distance_ly": "42 millones",
+      "constellation": "Coma Berenices",
+      "credit": "ESA/Hubble & NASA",
+      "description": "Conocida como la galaxia del sombrero por su forma distintiva. ",
+      "image_file": "edge_on/sombrero_galaxy.jpg"
+    },
+    {
+      "id": "M53",
+      "name": "M53",
+      "designation": "Galaxia del remolino",
+      "class": "spiral",
+      "distance_ly": "42 millones",
+      "constellation": "Coma Berenices",
+      "credit": "ESA/Hubble & NASA",
+      "description": "Conocida como la galaxia del remolino por su forma distintiva. ",
+      "image_file": "spiral/whirpool_galaxy.jpg"
+    },
+    { 
+      "id": "NGC???",
+      "name": "Galaxias de las antenas",
+      "designation": "Galaxias de las antenas",
+      "class": "merger",
+      "distance_ly": "42 millones",
+      "constellation": "Coma Berenices",
+      "credit": "ESA/Hubble & NASA",
+      "description": "Conocida como la galaxia de las antenas por su forma distintiva. ",
+      "image_file": "merger/antennae_galaxies.jpg"
+    }
+  ]
+}
