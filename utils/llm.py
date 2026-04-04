@@ -105,57 +105,56 @@ def get_gemini_client():
 
 
 # ==========================================
-# 4. FUNCIÓN CORE: GENERADOR UNIVERSAL
+# 4. FUNCIÓN CORE: GENERADOR UNIVERSAL (ONE-SHOT)
 # ==========================================
-def generate_text_universal(prompt: str, model_name: str) -> str:
+def generate_text_universal(prompt: str, model_name: str, system_prompt: str = None) -> str:
     """
-    Función puente. Recibe el prompt y el modelo, deduce el proveedor,
-    hace la llamada a la API correcta y estandariza la respuesta.
+    Ahora acepta un system_prompt para inyectar reglas duras.
     """
     if model_name not in MODEL_REGISTRY:
-        raise ValueError(f"El modelo '{model_name}' no está registrado en MODEL_REGISTRY.")
+        raise ValueError(f"El modelo '{model_name}' no está registrado.")
     
     provider = MODEL_REGISTRY[model_name]
     
     try:
         if provider == "anthropic":
             client = get_anthropic_client()
-            response = client.messages.create(
-                model=model_name,
-                max_tokens=500,
-                messages=[{"role": "user", "content": prompt}]
-            )
+            kwargs = {
+                "model": model_name,
+                "max_tokens": 500,
+                "messages": [{"role": "user", "content": prompt}]
+            }
+            if system_prompt:
+                kwargs["system"] = system_prompt # Anthropic lo recibe como parámetro separado
+                
+            response = client.messages.create(**kwargs)
             return response.content[0].text
             
         else:
-            # Seleccionamos el cliente correcto
-            if provider == "openai":
-                client = get_openai_client()
-            elif provider == "deepseek":
-                client = get_deepseek_client()
-            elif provider == "gemini":
-                client = get_gemini_client()
+            if provider == "openai": client = get_openai_client()
+            elif provider == "deepseek": client = get_deepseek_client()
+            elif provider == "gemini": client = get_gemini_client()
             
-            # Preparamos los argumentos base (comunes para todos)
+            # Construimos la lista de mensajes correctamente
+            messages = []
+            if system_prompt:
+                messages.append({"role": "system", "content": system_prompt})
+            messages.append({"role": "user", "content": prompt})
+            
             api_kwargs = {
                 "model": model_name,
-                "messages": [{"role": "user", "content": prompt}]
+                "messages": messages
             }
             
-            # Ajuste dinámico de parámetros según la evolución de la API
             if provider == "openai":
-                # OpenAI ahora exige este parámetro para sus modelos más recientes
                 api_kwargs["max_completion_tokens"] = 500
             else:
-                # DeepSeek y Gemini (en su capa de compatibilidad) siguen usando el clásico
                 api_kwargs["max_tokens"] = 500
                 
-            # Desempaquetamos el diccionario con **api_kwargs
             response = client.chat.completions.create(**api_kwargs)
             return response.choices[0].message.content
 
     except Exception as e:
-        # Programación defensiva: Si un proveedor falla, que no colapse la app.
         st.error(f"Error de comunicación con {provider} ({model_name}): {str(e)}")
         return "No se pudo generar la explicación debido a un error de conexión."
 
@@ -173,50 +172,42 @@ CLASS_DESCRIPTIONS = {
 def get_galaxy_explanation(galaxy_name: str,
                            predicted_class: str,
                            probabilities: dict,
-                           model_name: str, # <-- Nuevo parámetro
+                           model_name: str,
                            knowledge_level: str = "General") -> str:
     
-    probs_str = "\n".join([
-        f"  - {cls}: {prob*100:.1f}%"
-        for cls, prob in sorted(probabilities.items(), key=lambda x: -x[1])
-    ])
+    probs_str = "\n".join([f"  - {cls}: {prob*100:.1f}%" for cls, prob in sorted(probabilities.items(), key=lambda x: -x[1])])
 
-    nivel_instruccion = {
-        "General": "Explica de forma accesible para alguien sin conocimientos de astronomía.",
-        "Estudiante": "Explica para un estudiante universitario de ciencias.",
-        "Experto": "Explica con terminología técnica de astrofísica."
-    }[knowledge_level]
-
-    prompt = f"""Se clasificó la galaxia '{galaxy_name}' usando un modelo de visión por computadora entrenado en Galaxy Zoo 2.
-Resultado de la clasificación:
-- Clase predicha: {predicted_class} ({CLASS_DESCRIPTIONS.get(predicted_class, '')})
-- Probabilidades por clase:
+    # El User Prompt AHORA SOLO TIENE DATOS. Es limpio y objetivo.
+    prompt = f"""Datos del análisis de la galaxia '{galaxy_name}':
+- Nivel del usuario: {knowledge_level}
+- Clase predicha por la CNN: {predicted_class} ({CLASS_DESCRIPTIONS.get(predicted_class, '')})
+- Distribución Softmax (Confianza):
 {probs_str}
 
-{nivel_instruccion}
+Por favor, analiza estos datos y explícaselos al usuario siguiendo estrictamente tu estructura de sistema (Contexto, Detalles sutiles y CTA). Justifica la segunda probabilidad más alta si es relevante."""
 
-Por favor explica en español:
-1. Qué significa morfológicamente que esta galaxia sea clasificada como '{predicted_class}'
-2. Qué características visuales llevaron probablemente a esta clasificación
-3. Qué nos dice esta morfología sobre la historia y evolución de la galaxia
-4. Por qué el modelo asignó esa probabilidad a la segunda clase más probable""" + utils.prompt_engineering.stronger_prompt
-
-    # Llamamos al enrutador universal
-    return generate_text_universal(prompt, model_name)
+    # Pasamos tu súper prompt como el cerebro (system_prompt)
+    return generate_text_universal(
+        prompt=prompt, 
+        model_name=model_name, 
+        system_prompt=utils.prompt_engineering.stronger_prompt
+    )
 
 
 def get_gallery_description(galaxy_data: dict, model_name: str) -> str:
-    prompt = f"""Genera una descripción narrativa en español para la siguiente galaxia:
+    prompt = f"""El usuario está observando la siguiente galaxia en la galería:
 Nombre: {galaxy_data['name']} ({galaxy_data.get('designation', '')})
 Tipo morfológico: {galaxy_data.get('class', '')}
 Distancia: {galaxy_data.get('distance_ly', '')} años luz
-Constelación: {galaxy_data.get('constellation', '')}
 Descripción base: {galaxy_data.get('description', '')}
-""" + utils.prompt_engineering.stronger_prompt
 
-    # Llamamos al enrutador universal
-    return generate_text_universal(prompt, model_name)
+Genera tu explicación siguiendo tus directrices de sistema."""
 
+    return generate_text_universal(
+        prompt=prompt, 
+        model_name=model_name, 
+        system_prompt=utils.prompt_engineering.stronger_prompt
+    )
 # =============================================
 # PARA TENER CHAT EN LA APP
 # ==============================================
