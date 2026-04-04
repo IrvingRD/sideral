@@ -1,30 +1,77 @@
 from anthropic import Anthropic
 from openai import OpenAI
 from dotenv import load_dotenv
+from functools import lru_cache
+import streamlit as st
 import os
 
-load_dotenv()  # Carga las variables de entorno desde el archivo .env
+load_dotenv()  # Carga variables desde .env en local
 
 
+def get_secret(key_name: str, required: bool = True):
+    """
+    Busca una secret primero en variables de entorno (.env / sistema)
+    y luego en st.secrets (Streamlit Cloud).
+    """
+    value = os.getenv(key_name)
 
-ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-DEEPSEEK_API_KEY = os.getenv('DEEPSEEK_API_KEY')
+    if value is not None and str(value).strip() != "":
+        return str(value).strip()
 
-os.environ["ANTHROPIC_API_KEY"] = ANTHROPIC_API_KEY
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-os.environ["GEMINI_API_KEY"] = GEMINI_API_KEY
-os.environ["DEEPSEEK_API_KEY"] = DEEPSEEK_API_KEY
+    try:
+        if key_name in st.secrets:
+            value = st.secrets[key_name]
+            if value is not None and str(value).strip() != "":
+                return str(value).strip()
+    except Exception:
+        # Por si st.secrets no está disponible en algún contexto
+        pass
 
-# client = OpenAI()
-client = Anthropic()
+    if required:
+        raise ValueError(
+            f"No se encontró la secret '{key_name}'. "
+            f"Configúrala en tu archivo .env local o en Streamlit Secrets."
+        )
+
+    return None
+
+
+def bootstrap_env():
+    """
+    Copia secrets a os.environ solo si no existen aún.
+    Esto permite que código legado con os.getenv(...) siga funcionando.
+    """
+    for key in [
+        "ANTHROPIC_API_KEY",
+        "OPENAI_API_KEY",
+        "GEMINI_API_KEY",
+        "DEEPSEEK_API_KEY",
+    ]:
+        value = get_secret(key, required=False)
+        if value and os.getenv(key) is None:
+            os.environ[key] = value
+
+
+bootstrap_env()
+
+
+@lru_cache
+def get_anthropic_client():
+    api_key = get_secret("ANTHROPIC_API_KEY")
+    return Anthropic(api_key=api_key)
+
+
+@lru_cache
+def get_openai_client():
+    api_key = get_secret("OPENAI_API_KEY")
+    return OpenAI(api_key=api_key)
+
 
 CLASS_DESCRIPTIONS = {
     "elliptical": "galaxia elíptica — forma esferoidal suave sin estructura de disco ni brazos espirales",
-    "spiral":     "galaxia espiral — disco con brazos espirales claramente definidos",
-    "edge_on":    "galaxia de disco vista de canto — el plano del disco apunta hacia el observador",
-    "merger":     "galaxia en fusión — interacción gravitacional entre dos o más galaxias"
+    "spiral": "galaxia espiral — disco con brazos espirales claramente definidos",
+    "edge_on": "galaxia de disco vista de canto — el plano del disco apunta hacia el observador",
+    "merger": "galaxia en fusión — interacción gravitacional entre dos o más galaxias"
 }
 
 
@@ -37,19 +84,20 @@ def get_galaxy_explanation(
     """
     Genera una explicación contextual de la clasificación usando Claude.
     """
+    client = get_anthropic_client()
+
     probs_str = "\n".join([
         f"  - {cls}: {prob*100:.1f}%"
         for cls, prob in sorted(probabilities.items(), key=lambda x: -x[1])
     ])
 
     nivel_instruccion = {
-        "general":    "Explica de forma accesible para alguien sin conocimientos de astronomía. Usa analogías cotidianas.",
+        "general": "Explica de forma accesible para alguien sin conocimientos de astronomía. Usa analogías cotidianas.",
         "estudiante": "Explica para un estudiante universitario de ciencias. Puedes usar terminología básica de astronomía.",
-        "experto":    "Explica con terminología técnica de astrofísica. Asume conocimiento de morfología galáctica."
+        "experto": "Explica con terminología técnica de astrofísica. Asume conocimiento de morfología galáctica."
     }[knowledge_level]
 
-    prompt = f"""Se clasificó la galaxia '{galaxy_name}' usando un modelo de visión por computadora 
-entrenado en Galaxy Zoo 2.
+    prompt = f"""Se clasificó la galaxia '{galaxy_name}' usando un modelo de visión por computadora entrenado en Galaxy Zoo 2.
 
 Resultado de la clasificación:
 - Clase predicha: {predicted_class} ({CLASS_DESCRIPTIONS[predicted_class]})
@@ -68,7 +116,6 @@ Sé conciso — máximo 250 palabras. No uses markdown ni bullet points, solo p�
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
-        # model="gpt-5.4-mini",
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -80,6 +127,8 @@ def get_gallery_description(galaxy_data: dict) -> str:
     """
     Genera una descripción narrativa enriquecida para una galaxia de la galería.
     """
+    client = get_anthropic_client()
+
     prompt = f"""Genera una descripción narrativa en español para la siguiente galaxia,
 para mostrar en una aplicación educativa de astronomía:
 
@@ -98,7 +147,8 @@ Tono: divulgativo y apasionante. Máximo 200 palabras. Sin markdown."""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
-        # model="gpt-5.4-mini",
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}]
     )
+
+    return response.content[0].text
