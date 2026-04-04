@@ -108,15 +108,18 @@ with col_result:
             if st.button("💬 Iniciar análisis interactivo con IA", use_container_width=True):
                 st.session_state.chat_active = True
                 
-                # INYECCIÓN DEL SYSTEM PROMPT (El "Cerebro" del agente)
-                sys_prompt = f"""Eres el Asistente Analítico de 'Sideral'. 
-El usuario ha subido una imagen de una galaxia que acaba de ser procesada por nuestro modelo de visión computacional.
-Resultados de la Red Neuronal:
-- Clase predicha: {predicted_class}
-- Distribución de probabilidades:
+                # Importamos el súper prompt
+                from utils.prompt_engineering import stronger_prompt
+                
+                # Unimos el contexto específico de esta clasificación con tus directrices maestras
+                contexto_especifico = f"""
+[CONTEXTO DEL SISTEMA Y DATOS DE LA RED NEURONAL]
+El usuario ha subido una imagen de una galaxia. Estos son los resultados matemáticos de nuestro modelo de visión computacional:
+- Clase ganadora: {predicted_class}
+- Distribución de confianza:
 {probs_str}
-
-Tu objetivo es explicarle al usuario qué significan estos resultados, por qué el modelo pudo haber asignado esas probabilidades (justificando la segunda clase más probable si es necesario), y responder cualquier duda técnica o básica sobre astronomía que el usuario tenga sobre esta imagen."""
+"""
+                sys_prompt = contexto_especifico + "\n\n[TUS REGLAS DE COMPORTAMIENTO]\n" + stronger_prompt
                 
                 st.session_state.clf_chat_messages = [{"role": "system", "content": sys_prompt}]
                 st.rerun()
