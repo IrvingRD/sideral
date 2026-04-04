@@ -91,7 +91,7 @@ for i, galaxy in enumerate(galaxias_filtradas):
 
             nivel = st.selectbox(
                 "Nivel de explicación:",
-                ["general", "estudiante", "experto"],
+                ["General", "Estudiante", "Experto"],
                 key=f"nivel_{galaxy['name']}" # Cambié ID por nombre por si tu JSON no tiene 'id'
             )
 
