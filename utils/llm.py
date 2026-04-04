@@ -3,6 +3,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from anthropic import Anthropic
 from openai import OpenAI
+import utils.prompt_engineering
 
 load_dotenv()  # Carga variables desde .env en local
 
@@ -58,18 +59,18 @@ MODEL_REGISTRY = {
     # OpenAI
     "gpt-5.4": "openai",
     "gpt-5.4-mini": "openai",
-    "gpt-5.4-nano": "openai",
+    # "gpt-5.4-nano": "openai",
     # DeepSeek
     "deepseek-chat": "deepseek",
     "deepseek-reasoner": "deepseek",
     # Gemini
     "gemini-2.5-pro": "gemini",
-    "gemini-2.5-flash-image": "gemini",
+    # "gemini-2.5-flash-image": "gemini",
     "gemini-2.5-flash": "gemini",
     # Anthropic
     "claude-opus-4-6": "anthropic",
     "claude-sonnet-4-6": "anthropic",
-    "claude-haiku-4-5": "anthropic",
+    # "claude-haiku-4-5": "anthropic",
 }
 
 
@@ -163,17 +164,17 @@ def generate_text_universal(prompt: str, model_name: str) -> str:
 # 5. FUNCIONES DE NEGOCIO (UI)
 # ==========================================
 CLASS_DESCRIPTIONS = {
-    "elliptical": "galaxia elíptica — forma esferoidal suave sin estructura de disco ni brazos espirales",
-    "spiral": "galaxia espiral — disco con brazos espirales claramente definidos",
-    "edge_on": "galaxia de disco vista de canto — el plano del disco apunta hacia el observador",
-    "merger": "galaxia en fusión — interacción gravitacional entre dos o más galaxias"
+    "elliptical": "Galaxia elíptica — forma esferoidal suave sin estructura de disco ni brazos espirales",
+    "spiral": "Galaxia espiral — disco con brazos espirales claramente definidos",
+    "edge_on": "Galaxia de disco vista de canto — el plano del disco apunta hacia el observador",
+    "merger": "Galaxia en fusión — interacción gravitacional entre dos o más galaxias"
 }
 
 def get_galaxy_explanation(galaxy_name: str,
                            predicted_class: str,
                            probabilities: dict,
                            model_name: str, # <-- Nuevo parámetro
-                           knowledge_level: str = "eneral") -> str:
+                           knowledge_level: str = "General") -> str:
     
     probs_str = "\n".join([
         f"  - {cls}: {prob*100:.1f}%"
@@ -198,9 +199,7 @@ Por favor explica en español:
 1. Qué significa morfológicamente que esta galaxia sea clasificada como '{predicted_class}'
 2. Qué características visuales llevaron probablemente a esta clasificación
 3. Qué nos dice esta morfología sobre la historia y evolución de la galaxia
-4. Por qué el modelo asignó esa probabilidad a la segunda clase más probable
-
-Sé conciso — máximo 250 palabras. No uses markdown ni bullet points, solo párrafos."""
+4. Por qué el modelo asignó esa probabilidad a la segunda clase más probable""" + utils.prompt_engineering.stronger_prompt
 
     # Llamamos al enrutador universal
     return generate_text_universal(prompt, model_name)
@@ -213,13 +212,7 @@ Tipo morfológico: {galaxy_data.get('class', '')}
 Distancia: {galaxy_data.get('distance_ly', '')} años luz
 Constelación: {galaxy_data.get('constellation', '')}
 Descripción base: {galaxy_data.get('description', '')}
-
-Escribe 3 párrafos cortos y atractivos que:
-1. Describan la apariencia visual y características morfológicas
-2. Expliquen qué hace única o interesante a esta galaxia
-3. Den contexto sobre su importancia en la astronomía moderna
-
-Tono: divulgativo y apasionante. Máximo 200 palabras. Sin markdown."""
+""" + utils.prompt_engineering.stronger_prompt
 
     # Llamamos al enrutador universal
     return generate_text_universal(prompt, model_name)
