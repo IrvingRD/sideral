@@ -127,28 +127,36 @@ def generate_text_universal(prompt: str, model_name: str) -> str:
             return response.content[0].text
             
         else:
-            # Si el proveedor es openai, deepseek o gemini, usamos el cliente de OpenAI
+            # Seleccionamos el cliente correcto
             if provider == "openai":
                 client = get_openai_client()
             elif provider == "deepseek":
                 client = get_deepseek_client()
             elif provider == "gemini":
                 client = get_gemini_client()
+            
+            # Preparamos los argumentos base (comunes para todos)
+            api_kwargs = {
+                "model": model_name,
+                "messages": [{"role": "user", "content": prompt}]
+            }
+            
+            # Ajuste dinámico de parámetros según la evolución de la API
+            if provider == "openai":
+                # OpenAI ahora exige este parámetro para sus modelos más recientes
+                api_kwargs["max_completion_tokens"] = 500
+            else:
+                # DeepSeek y Gemini (en su capa de compatibilidad) siguen usando el clásico
+                api_kwargs["max_tokens"] = 500
                 
-            response = client.chat.completions.create(
-                model=model_name,
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=500
-            )
-            # El objeto de respuesta de OpenAI tiene una estructura de árbol distinta a Anthropic
+            # Desempaquetamos el diccionario con **api_kwargs
+            response = client.chat.completions.create(**api_kwargs)
             return response.choices[0].message.content
 
     except Exception as e:
         # Programación defensiva: Si un proveedor falla, que no colapse la app.
         st.error(f"Error de comunicación con {provider} ({model_name}): {str(e)}")
         return "No se pudo generar la explicación debido a un error de conexión."
-
-
 
 
 # ==========================================
@@ -165,7 +173,7 @@ def get_galaxy_explanation(galaxy_name: str,
                            predicted_class: str,
                            probabilities: dict,
                            model_name: str, # <-- Nuevo parámetro
-                           knowledge_level: str = "general") -> str:
+                           knowledge_level: str = "eneral") -> str:
     
     probs_str = "\n".join([
         f"  - {cls}: {prob*100:.1f}%"

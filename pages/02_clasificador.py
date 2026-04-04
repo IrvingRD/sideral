@@ -50,7 +50,7 @@ with col_upload:
 
     nivel = st.selectbox(
         "Nivel de explicación astronómica:",
-        ["general", "estudiante", "experto"],
+        ["General", "Estudiante", "Experto"],
         help="Ajusta el nivel técnico de la explicación generada por el modelo de lenguaje."
     )
 
