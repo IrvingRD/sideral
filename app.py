@@ -1,4 +1,6 @@
 import streamlit as st
+from utils.secrets import bootstrap_env
+bootstrap_env()
 
 st.set_page_config(
     page_title="Sideral",
