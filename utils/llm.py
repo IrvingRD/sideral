@@ -223,3 +223,68 @@ Tono: divulgativo y apasionante. Máximo 200 palabras. Sin markdown."""
 
     # Llamamos al enrutador universal
     return generate_text_universal(prompt, model_name)
+
+# =============================================
+# PARA TENER CHAT EN LA APP
+# ==============================================
+
+def chat_universal(messages: list, model_name: str) -> str:
+    """
+    Función puente para chats multi-turno.
+    Recibe una lista de diccionarios en formato OpenAI: 
+    [{"role": "system"|"user"|"assistant", "content": "..."}]
+    y la adapta según el proveedor.
+    """
+    if model_name not in MODEL_REGISTRY:
+        raise ValueError(f"El modelo '{model_name}' no está registrado.")
+    
+    provider = MODEL_REGISTRY[model_name]
+    
+    try:
+        if provider == "anthropic":
+            client = get_anthropic_client()
+            
+            # Anthropic no acepta "system" dentro de la lista de mensajes.
+            # Lo extraemos si existe y lo pasamos como parámetro independiente.
+            system_msg = next((m["content"] for m in messages if m["role"] == "system"), None)
+            
+            # Filtramos solo los mensajes de usuario y asistente para la lista
+            anthropic_msgs = [{"role": m["role"], "content": m["content"]} 
+                              for m in messages if m["role"] in ["user", "assistant"]]
+            
+            kwargs = {
+                "model": model_name,
+                "max_tokens": 1000, # Un poco más largo para chats
+                "messages": anthropic_msgs
+            }
+            if system_msg:
+                kwargs["system"] = system_msg # Inyectamos el system prompt a la manera de Anthropic
+                
+            response = client.messages.create(**kwargs)
+            return response.content[0].text
+            
+        else:
+            # Para OpenAI, DeepSeek y Gemini
+            if provider == "openai":
+                client = get_openai_client()
+            elif provider == "deepseek":
+                client = get_deepseek_client()
+            elif provider == "gemini":
+                client = get_gemini_client()
+            
+            api_kwargs = {
+                "model": model_name,
+                "messages": messages # Estos proveedores aceptan la lista intacta (incluyendo "system")
+            }
+            
+            if provider == "openai":
+                api_kwargs["max_completion_tokens"] = 1000
+            else:
+                api_kwargs["max_tokens"] = 1000
+                
+            response = client.chat.completions.create(**api_kwargs)
+            return response.choices[0].message.content
+
+    except Exception as e:
+        st.error(f"Error de comunicación con {provider} ({model_name}): {str(e)}")
+        return "Hubo un error al procesar tu mensaje."
