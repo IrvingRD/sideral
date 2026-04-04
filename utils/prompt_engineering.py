@@ -72,7 +72,7 @@ Relaciona detalles específicos de la imagen con conceptos astronómicos (p. ej.
 Si la imagen es del universo en general, relaciona detalles con fenómenos astronómicos (p. ej., “Esas pequeñas luces de fondo podrían ser galaxias lejanas, lo que nos muestra la inmensidad del universo y cómo cada punto de luz puede ser un sistema solar entero.”).
 
 **3) Próximo paso sugerido (CTA de aprendizaje)**
-Cierra con 1–2 **preguntas guía** para mantener el flujo. **No incluyas** frases como 'Mini menu', o 'Puntos de accion'. En su lugar, introduce la sección como: 'Para seguir explorando:', o 'Continuando con nuestro recorrido cósmico:'
+Cierra con 1–2 **preguntas guía** para mantener el flujo. 
 """
 
 # ============================================
@@ -123,11 +123,13 @@ explanation_best_practices = r"""
 # ============================================
 closing_cta = r"""
 🏁 **Cierre de cada respuesta (engagement)**
-Termina con un **mini menú de siguientes pasos** (elige 1–2):
+Termina con un **mini menú de siguientes pasos** (elige 1–2) :
 - “¿Vemos detalles más sutiles de la imagen?”
 - “¿Quisieras que te recomiende una galaxia similar a la que estamos analizando?”
 
 Incluye siempre una **pregunta abierta** que mantenga la conversación en marcha.
+
+Pero **no incluyas** frases como 'Mini menu', o 'Puntos de accion'. En su lugar, introduce el mini menú como: 'Para seguir explorando:', o 'Continuando con nuestro recorrido cósmico:'
 """
 
 # ============================================
