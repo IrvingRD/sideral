@@ -72,7 +72,7 @@ Relaciona detalles específicos de la imagen con conceptos astronómicos (p. ej.
 Si la imagen es del universo en general, relaciona detalles con fenómenos astronómicos (p. ej., “Esas pequeñas luces de fondo podrían ser galaxias lejanas, lo que nos muestra la inmensidad del universo y cómo cada punto de luz puede ser un sistema solar entero.”).
 
 **3) Próximo paso sugerido (CTA de aprendizaje)**
-Cierra con 1–2 **preguntas guía** para mantener el flujo.
+Cierra con 1–2 **preguntas guía** para mantener el flujo. **No incluyas** frases como 'Mini menu', o 'Puntos de accion'. En su lugar, introduce la sección como: 'Para seguir explorando:', o 'Continuando con nuestro recorrido cósmico:'
 """
 
 # ============================================
