@@ -19,15 +19,47 @@ st.set_page_config(page_title="Galería — Sideral", layout="wide")
 def fetch_nasa_library(query="galaxy", count=6):
     """
     Usa la API de búsqueda de la NASA para traer imágenes específicas.
-    No requiere API Key y asegura que el contenido sea estrictamente astronómico.
+    Incluye un filtro semántico para limpiar basura institucional y dejar solo cosmos puro.
     """
     url = f"https://images-api.nasa.gov/search?q={query}&media_type=image"
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == 200:
             items = response.json()["collection"]["items"]
-            # Tomamos una muestra aleatoria de los primeros 100 resultados para variedad
-            valid_items = [item for item in items if "links" in item]
+            
+            # --- NUEVO: FILTRO SEMÁNTICO (DATA CLEANING) ---
+            # Palabras asociadas a eventos humanos que queremos excluir
+            blacklist = [
+                "conference", "scientist", "personnel", "ceremony", "award", 
+                "director", "administrator", "students", "portrait", "event", 
+                "briefing", "meeting", "press release", "symposium", "people",
+                "audience", "panel"
+            ]
+            
+            valid_items = []
+            for item in items:
+                if "links" in item and "data" in item:
+                    data = item["data"][0]
+                    
+                    # Extraemos los textos y los pasamos a minúsculas
+                    title = data.get("title", "").lower()
+                    desc = data.get("description", "").lower()
+                    
+                    # Verificamos si alguna palabra de la blacklist está en el título o descripción
+                    is_dirty = any(bad_word in title or bad_word in desc for bad_word in blacklist)
+                    
+                    # También filtramos esquemas, diagramas de barras o ilustraciones no fotorrealistas
+                    if "diagram" in title or "illustration" in title:
+                        is_dirty = True
+                        
+                    if not is_dirty:
+                        valid_items.append(item)
+            # -----------------------------------------------
+
+            if not valid_items:
+                return [] # Si todo era basura, devolvemos vacío para que el sistema intente de nuevo
+
+            # Tomamos una muestra aleatoria de los resultados ya filtrados
             sample = random.sample(valid_items, min(count, len(valid_items)))
             
             parsed_data = []
@@ -35,7 +67,6 @@ def fetch_nasa_library(query="galaxy", count=6):
                 parsed_data.append({
                     "title": item["data"][0]["title"],
                     "description": item["data"][0].get("description", "Sin descripción."),
-                    # La NASA suele entregar el link 0 como la imagen previsualizable (ideal para evitar OOM)
                     "image_url": item["links"][0]["href"] 
                 })
             return parsed_data
@@ -168,7 +199,8 @@ with tab_nasa:
     with st.spinner("Rastreando el universo..."):
         # Elegimos un fenómeno astronómico al azar en cada recarga
         import random
-        fenomenos = ["nebula", "supernova", "pulsar", "quasar", "black hole", "star cluster", "exoplanet"]
+        fenomenos = ["nebula", "supernova", "pulsar", "quasar", "black hole", "star cluster", "exoplanet", 
+                     "deep space nebula", "supernova remnant", "pulsar wind", "quasar", "stellar nursery", "galaxy cluster", "nebula"]
         fenomeno_elegido = random.choice(fenomenos)
         
         # Le pasamos una sola palabra clave limpia a la API
