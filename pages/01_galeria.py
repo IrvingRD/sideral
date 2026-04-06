@@ -166,25 +166,31 @@ with tab_nasa:
         fetch_nasa_library.clear()
         
     with st.spinner("Rastreando el universo..."):
-        # Usamos palabras clave estrictas para evitar el "coronavirus" o "tierra"
-        nasa_items = fetch_nasa_library(query="nebula OR supernova OR pulsar OR quasar", count=6)
+        # Elegimos un fenómeno astronómico al azar en cada recarga
+        import random
+        fenomenos = ["nebula", "supernova", "pulsar", "quasar", "black hole", "star cluster", "exoplanet"]
+        fenomeno_elegido = random.choice(fenomenos)
+        
+        # Le pasamos una sola palabra clave limpia a la API
+        nasa_items = fetch_nasa_library(query=fenomeno_elegido, count=6)
     
     if nasa_items:
+        st.success(f"🔭 Mostrando resultados para la categoría: **{fenomeno_elegido.title()}**")
         cols_nasa = st.columns(3)
         for i, item in enumerate(nasa_items):
             with cols_nasa[i % 3]:
-                st.image(item['image_url'], width="stretch")
+                st.image(item['image_url'], width='stretch')
                 st.markdown(f"**{item['title']}**")
                 
                 with st.expander("Información e Interacción"):
                     st.info("ℹ️ Imagen general del universo. El análisis morfológico CNN no aplica aquí.")
-                    if st.button("💬 Explorar imagen con IA", key=f"btn_nasa_{i}"):
+                    if st.button("💬 Explorar imagen con IA", key=f"btn_nasa_{i}_{fenomeno_elegido}"):
                         st.session_state.active_chat_item = f"NASA Cosmos: {item['title']}"
                         ctx = f"[CONTEXTO]\nEl usuario ve: {item['title']}. Explicación oficial: {item['description']}. NO usar clasificación de galaxias."
                         st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                         st.rerun()
-
-st.divider()
+    else:
+        st.warning(f"No se pudieron recuperar imágenes para '{fenomeno_elegido}'. Intenta buscar de nuevo.")
 
 # ==========================================
 # 4. INTERFAZ DE CHAT UNIFICADA
