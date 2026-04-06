@@ -101,7 +101,7 @@ with tab_galaxias:
         for i, galaxy in enumerate(galaxias_filtradas):
             with cols[i % 3]:
                 img = Image.open(f"data/images/{galaxy['image_file']}")
-                st.image(img, use_container_width=True)
+                st.image(img, width="stretch")
                 st.markdown(f"**{galaxy['name']}**")
                 
                 with st.expander("Ver análisis de Red Neuronal"):
@@ -130,7 +130,7 @@ with tab_galaxias:
         cols = st.columns(3)
         for i, item in enumerate(nasa_galaxies):
             with cols[i % 3]:
-                st.image(item["image_url"], use_container_width=True)
+                st.image(item["image_url"], width="stretch")
                 st.markdown(f"**{item['title']}**")
                 
                 with st.expander("Inferencia CNN en Tiempo Real"):
@@ -173,7 +173,7 @@ with tab_nasa:
         cols_nasa = st.columns(3)
         for i, item in enumerate(nasa_items):
             with cols_nasa[i % 3]:
-                st.image(item['image_url'], use_container_width=True)
+                st.image(item['image_url'], width="stretch")
                 st.markdown(f"**{item['title']}**")
                 
                 with st.expander("Información e Interacción"):
