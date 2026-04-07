@@ -22,7 +22,7 @@ MODELO_FIJO = "claude-opus-4-6"
 
 with st.sidebar:
     # Usamos tu nueva imagen local y dejamos que se ajuste al ancho del sidebar
-    st.image("logo.jpg", use_container_width=True)
+    st.image("logo.png", use_container_width=True)
     
     st.markdown("### Configuración del Sistema")
     st.info(f"🧠 Motor Analítico Activo:\n**{MODELO_FIJO.upper()}**")
