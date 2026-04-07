@@ -14,7 +14,7 @@ st.set_page_config(
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     # Asegúrate de que tu imagen se llame "logo.jpg" y esté en la misma carpeta que este script
-    st.image("logo.jpg", use_container_width=True)
+    st.image("logo.png", use_container_width=True)
 
 st.markdown("<h1 style='text-align: center; font-size: 3.5rem;'>SIDERAL</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center; color: #A0AEC0; font-weight: 300;'>Tu ventana inteligente al cosmos ✨</h3>", unsafe_allow_html=True)
