@@ -64,7 +64,7 @@ if "active_chat_item" not in st.session_state: st.session_state.active_chat_item
 if "focus_data" not in st.session_state: st.session_state.focus_data = None
 
 # Fijamos el LLM por regla de negocio
-MODELO_FIJO = "gpt-5.4"
+MODELO_FIJO = "claude-opus-4-6"
 
 # ==========================================
 # 2. CONFIGURACIÓN GLOBAL EN SIDEBAR

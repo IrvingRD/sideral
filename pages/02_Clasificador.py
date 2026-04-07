@@ -14,7 +14,7 @@ if "clf_chat_messages" not in st.session_state: st.session_state.clf_chat_messag
 if "last_uploaded_file" not in st.session_state: st.session_state.last_uploaded_file = None
 if "chat_active" not in st.session_state: st.session_state.chat_active = False
 
-MODELO_FIJO = "gpt-5.4"
+MODELO_FIJO = "claude-opus-4-6"
 
 # ==========================================
 # 2. CONFIGURACIÓN GLOBAL EN SIDEBAR
