@@ -7,7 +7,7 @@ from io import BytesIO
 import random
 import os
 
-from utils.llm import MODEL_REGISTRY, chat_universal
+from utils.llm import MODEL_REGISTRY, chat_universal, generate_text_universal
 from utils.model_loader import load_model_and_metadata, predict_galaxy
 from utils.prompt_engineering import stronger_prompt
 
@@ -198,7 +198,10 @@ if st.session_state.focus_data is None:
                 for i, item in enumerate(nasa_galaxies):
                     with cols[i % 3]:
                         st.image(item["url"], use_container_width=True)
-                        st.markdown(f"**{item['title']}**")
+                        
+                        # TRADUCCIÓN DEL TÍTULO EN VIVO
+                        titulo_espanol = traducir_titulo_con_ia(item['title'])
+                        st.markdown(f"**{titulo_espanol}**")
                         
                         if st.button("🔍 Analizar y Explorar", key=f"btn_dyn_{i}"):
                             img_pil, img_array = load_image_from_url(item["url"])
@@ -206,21 +209,20 @@ if st.session_state.focus_data is None:
                                 predicted_class, probabilities = predict_galaxy(model, model_metadata, img_array)
                                 st.session_state.focus_data = {
                                     "image_src": item["url"],
-                                    "title": item['title'],
+                                    "title": titulo_espanol, # Pasamos el título en español al modo enfoque
                                     "predicted_class": predicted_class,
                                     "probabilities": probabilities,
                                     "is_nasa": True
                                 }
-                                st.session_state.active_chat_item = f"NASA Galaxia: {item['title']}"
-                                ctx = f"[CONTEXTO]\nEl usuario ve la galaxia: {item['title']}. Explicación: {item['explanation']}. Predicción visual: {predicted_class}."
+                                st.session_state.active_chat_item = f"NASA Galaxia: {titulo_espanol}"
+                                ctx = f"[CONTEXTO]\nEl usuario ve la galaxia: {titulo_espanol}. Explicación de la NASA: {item['explanation']}. Predicción visual: {predicted_class}."
                                 st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                                 st.rerun()
 
-    # ------------------------------------------
+    ## ------------------------------------------
     # PESTAÑA 2: FENÓMENOS DEL UNIVERSO
     # ------------------------------------------
     with tab_nasa:
-        # NUEVO: Explicación amigable de que aquí no hay Red Neuronal
         st.info("💡 **Exploración Libre:** A diferencia de las galaxias, estos fenómenos (nebulosas, supernovas, etc.) tienen formas caóticas. Nuestro sistema de análisis de formas está descansando aquí, pero Sideral ha estudiado los archivos de la NASA para contarte la asombrosa historia detrás de cada imagen.")
         
         st.write("")
@@ -233,17 +235,21 @@ if st.session_state.focus_data is None:
             for i, item in enumerate(nasa_items):
                 with cols_nasa[i % 3]:
                     st.image(item['url'], use_container_width=True)
-                    st.markdown(f"**{item['title']}**")
+                    
+                    # TRADUCCIÓN DEL TÍTULO EN VIVO
+                    titulo_espanol = traducir_titulo_con_ia(item['title'])
+                    st.markdown(f"**{titulo_espanol}**")
+                    
                     if st.button("💬 Explorar fenómeno", key=f"btn_nasa_{i}"):
                         st.session_state.focus_data = {
                             "image_src": item["url"],
-                            "title": item['title'],
+                            "title": titulo_espanol, # Pasamos el título en español al modo enfoque
                             "predicted_class": None, 
                             "probabilities": None,
                             "is_nasa": True
                         }
-                        st.session_state.active_chat_item = f"NASA Cosmos: {item['title']}"
-                        ctx = f"[CONTEXTO]\nEl usuario ve: {item['title']}. Explicación oficial: {item['explanation']}. NO usar clasificación de formas."
+                        st.session_state.active_chat_item = f"NASA Cosmos: {titulo_espanol}"
+                        ctx = f"[CONTEXTO]\nEl usuario ve: {titulo_espanol}. Explicación oficial: {item['explanation']}. NO usar clasificación de formas."
                         st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                         st.rerun()
 

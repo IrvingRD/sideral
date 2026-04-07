@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 
 from utils.model_loader import load_model_and_metadata, predict_galaxy
-from utils.llm import chat_universal
+from utils.llm import MODEL_REGISTRY, chat_universal, generate_text_universal
 
 st.set_page_config(page_title="Sideral — Observatorio", layout="wide")
 
