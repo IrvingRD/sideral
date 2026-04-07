@@ -39,7 +39,7 @@ model, model_metadata = load_model_and_metadata()
 st.title("🔭 Observatorio Inteligente")
 st.markdown("Sube una imagen del universo. Nuestro sistema visual analizará su forma, y luego podrás platicar con Sideral para descubrir los secretos de tu fotografía.")
 
-uploaded = st.file_uploader("Sube la fotografía de una galaxia. Para un resultado óptimo, usa imágenes de alta resolución y donde la galaxia esté cerca del centro (JPG, PNG)", type=["jpg", "jpeg", "png"])
+uploaded = st.file_uploader("Sube la fotografía de una galaxia. Para un resultado óptimo, usa imágenes de alta resolución y donde la galaxia esté cerca del centro (JPG, PNG).", type=["jpg", "jpeg", "png"])
 
 if uploaded:
     # Reiniciar estado si se sube una nueva imagen

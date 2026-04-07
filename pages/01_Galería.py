@@ -14,7 +14,22 @@ from utils.prompt_engineering import stronger_prompt
 st.set_page_config(page_title="Galería — Sideral", layout="wide")
 
 # ==========================================
-# 0. EXTRACCIÓN Y LIMPIEZA DE DATOS (APOD)
+# 0. INYECCIÓN DE CSS (HACER PESTAÑAS MÁS GRANDES)
+# ==========================================
+st.markdown("""
+<style>
+    /* Hacemos que las pestañas (Tabs) de Streamlit sean mucho más grandes */
+    button[data-baseweb="tab"] {
+        font-size: 1.3rem !important; /* Texto más grande */
+        font-weight: 600 !important; /* Texto en negrita */
+        padding-top: 1rem !important; /* Más espacio arriba */
+        padding-bottom: 1rem !important; /* Más espacio abajo */
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ==========================================
+# 0.1 EXTRACCIÓN Y LIMPIEZA DE DATOS (APOD)
 # ==========================================
 @st.cache_data(ttl=300, show_spinner=False) 
 def fetch_curated_apod(category="galaxy", count=6):
@@ -60,20 +75,15 @@ def load_image_from_url(url):
 # ==========================================
 if "chat_messages" not in st.session_state: st.session_state.chat_messages = []
 if "active_chat_item" not in st.session_state: st.session_state.active_chat_item = None
-# NUEVO: Estado para almacenar la imagen enfocada y ocultar la galería
 if "focus_data" not in st.session_state: st.session_state.focus_data = None
 
-# Fijamos el LLM por regla de negocio
 MODELO_FIJO = "claude-opus-4-6"
 
 # ==========================================
 # 2. CONFIGURACIÓN GLOBAL EN SIDEBAR
 # ==========================================
 with st.sidebar:
-    # Usamos tu nueva imagen local y dejamos que se ajuste al ancho del sidebar
     st.image("logo.png", use_container_width=True)
-    
-
     
     if st.button("🗑️ Limpiar historial de análisis"):
         st.session_state.clf_chat_messages = []
@@ -84,53 +94,85 @@ with st.sidebar:
     st.markdown("Sideral © 2026")
 
 # ==========================================
-# 3. VISTA MAESTRA (SI NO HAY IMAGEN ENFOCADA)
+# 3. INTERFAZ PRINCIPAL (CUADRÍCULA)
 # ==========================================
 if st.session_state.focus_data is None:
+
     st.title("🌌 Galería del Universo")
-    st.markdown("Imágenes de altísima calidad obtenidas de curaciones manuales (Sideral) y astronómicas profesionales (NASA APOD).")
+    
+    # NUEVO: TEXTO GUÍA GENERAL PARA EL USUARIO
+    st.markdown("""
+    **Explora las fascinantes imágenes de galaxias**, donde puedes descubrir y estudiar su forma, o bien, 
+    **sumérgete en otros impactantes fenómenos del universo**. En todo momento estarás acompañado de **Sideral**, 
+    tu asistente inteligente, listo para responder todas tus dudas.
+    """)
 
     tab_galaxias, tab_nasa = st.tabs(["🔭 Clasificación de Galaxias", "🚀 Fenómenos del Universo"])
 
     model, model_metadata = load_model_and_metadata()
-    CLASE_LABELS = {"elliptical": "🔴 Elíptica", "spiral": "🌀 Espiral", "edge_on": "💫 Edge-on", "merger": "💥 Merger"}
+    CLASE_LABELS = {"elliptical": "🔴 Elíptica", "spiral": "🌀 Espiral", "edge_on": "💫 Disco de Canto", "merger": "💥 Galaxias en Fusión"}
 
-    # --- PESTAÑA GALAXIAS ---
+    # ------------------------------------------
+    # PESTAÑA 1: GALAXIAS
+    # ------------------------------------------
     with tab_galaxias:
-        origen_datos = st.radio("Fuente de datos:", ["Datos Curados Sideral (Alta Precisión)", "Streaming NASA APOD"], horizontal=True)
+        # NUEVO: Explicación amigable del modelo y las probabilidades
+        st.info("💡 **¿Cómo funciona nuestro observatorio?** Nuestra lente inteligente analiza la estructura de cada galaxia y nos da un *nivel de certeza visual* en porcentajes. Es decir, nos cuenta qué tan segura está de su forma. ¡Entra a cualquier galaxia y pregúntale a Sideral el porqué de estos resultados!")
         
-        if "Sideral" in origen_datos:
+        st.write("")
+
+        if "fuente_galaxias" not in st.session_state:
+            st.session_state.fuente_galaxias = "Sideral"
+
+        col_btn1, col_btn2 = st.columns(2)
+        
+        with col_btn1:
+            if st.button("🌌 Nuestro Archivo (Galaxias Clásicas)", use_container_width=True, type="primary" if st.session_state.fuente_galaxias == "Sideral" else "secondary"):
+                st.session_state.fuente_galaxias = "Sideral"
+                st.rerun()
+                
+        with col_btn2:
+            if st.button("🛰️ Conexión NASA (Imágenes en vivo)", use_container_width=True, type="primary" if st.session_state.fuente_galaxias == "NASA" else "secondary"):
+                st.session_state.fuente_galaxias = "NASA"
+                st.rerun()
+
+        st.write("") 
+
+        # --- LÓGICA DE DIBUJADO DE GALAXIAS SIDERAL ---
+        if st.session_state.fuente_galaxias == "Sideral":
             with open("data/gallery_metadata.json") as f:
                 galaxias_filtradas = json.load(f)["galaxies"]
-            
+
             cols = st.columns(3)
             for i, galaxy in enumerate(galaxias_filtradas):
                 with cols[i % 3]:
-                    img_path = f"data/images/{galaxy['image_file']}"
-                    st.image(img_path, use_container_width=True)
+                    img = Image.open(f"data/images/{galaxy['image_file']}")
+                    st.image(img, use_container_width=True)
                     st.markdown(f"**{galaxy['name']}**")
                     
                     if st.button("🔍 Analizar y Explorar", key=f"btn_loc_{galaxy['name']}"):
-                        # Calculamos probabilidades al instante para guardarlas
-                        img = Image.open(img_path)
                         img_array = np.array(img.convert("RGB"))
                         predicted_class, probabilities = predict_galaxy(model, model_metadata, img_array)
                         
-                        # Guardamos en estado para la vista de enfoque
                         st.session_state.focus_data = {
-                            "image_src": img_path,
+                            "image_src": img, 
                             "title": galaxy['name'],
                             "predicted_class": predicted_class,
                             "probabilities": probabilities,
                             "is_nasa": False
                         }
                         st.session_state.active_chat_item = f"Galaxia: {galaxy['name']}"
-                        ctx = f"[CONTEXTO]\nEl usuario ve: {galaxy['name']}. Clase real: {galaxy['class']}. Predicción CNN: {predicted_class}."
+                        ctx = f"[CONTEXTO]\nEl usuario ve: {galaxy['name']}. Clase real: {galaxy['class']}. Predicción visual: {predicted_class}."
                         st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                         st.rerun()
 
-        else:
-            if st.button("🔄 Cargar otras galaxias"): fetch_curated_apod.clear()
+        # --- LÓGICA DE DIBUJADO DE GALAXIAS NASA ---
+        else: 
+            st.info("💡 Conectando con los archivos de la NASA... Buscando las fotografías de galaxias más espectaculares del día.")
+            
+            if st.button("🔄 Buscar otras galaxias en el archivo"):
+                fetch_curated_apod.clear()
+            
             with st.spinner("Descargando fotos de APOD..."):
                 nasa_galaxies = fetch_curated_apod(category="galaxy", count=6)
                 
@@ -153,12 +195,19 @@ if st.session_state.focus_data is None:
                                     "is_nasa": True
                                 }
                                 st.session_state.active_chat_item = f"NASA Galaxia: {item['title']}"
-                                ctx = f"[CONTEXTO]\nEl usuario ve la galaxia: {item['title']}. Explicación: {item['explanation']}. Predicción CNN: {predicted_class}."
+                                ctx = f"[CONTEXTO]\nEl usuario ve la galaxia: {item['title']}. Explicación: {item['explanation']}. Predicción visual: {predicted_class}."
                                 st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                                 st.rerun()
 
-    # --- PESTAÑA FENÓMENOS ---
+    # ------------------------------------------
+    # PESTAÑA 2: FENÓMENOS DEL UNIVERSO
+    # ------------------------------------------
     with tab_nasa:
+        # NUEVO: Explicación amigable de que aquí no hay Red Neuronal
+        st.info("💡 **Exploración Libre:** A diferencia de las galaxias, estos fenómenos (nebulosas, supernovas, etc.) tienen formas caóticas. Nuestro sistema de análisis de formas está descansando aquí, pero Sideral ha estudiado los archivos de la NASA para contarte la asombrosa historia detrás de cada imagen.")
+        
+        st.write("")
+
         if st.button("🔄 Buscar nuevos fenómenos"): fetch_curated_apod.clear()
         with st.spinner("Filtrando el cosmos..."):
             nasa_items = fetch_curated_apod(category="phenomenon", count=6)
@@ -172,12 +221,12 @@ if st.session_state.focus_data is None:
                         st.session_state.focus_data = {
                             "image_src": item["url"],
                             "title": item['title'],
-                            "predicted_class": None, # No aplica CNN
+                            "predicted_class": None, 
                             "probabilities": None,
                             "is_nasa": True
                         }
                         st.session_state.active_chat_item = f"NASA Cosmos: {item['title']}"
-                        ctx = f"[CONTEXTO]\nEl usuario ve: {item['title']}. Explicación oficial: {item['explanation']}. NO usar clasificación."
+                        ctx = f"[CONTEXTO]\nEl usuario ve: {item['title']}. Explicación oficial: {item['explanation']}. NO usar clasificación de formas."
                         st.session_state.chat_messages = [{"role": "system", "content": ctx + "\n\n" + stronger_prompt}]
                         st.rerun()
 
@@ -185,7 +234,6 @@ if st.session_state.focus_data is None:
 # 4. VISTA DE ENFOQUE (MODO DETALLE + CHAT)
 # ==========================================
 else:
-    # Botón para regresar a la cuadrícula
     if st.button("⬅️ Volver a la Galería"):
         st.session_state.focus_data = None
         st.session_state.active_chat_item = None
@@ -194,42 +242,33 @@ else:
 
     st.divider()
     
-    # CENTRAMOS LA IMAGEN Y LOS RESULTADOS (1/4 - 2/4 - 1/4)
     c1, c2, c3 = st.columns([1, 2, 1])
     
     with c2:
         st.markdown(f"<h2 style='text-align: center;'>{st.session_state.focus_data['title']}</h2>", unsafe_allow_html=True)
         st.image(st.session_state.focus_data["image_src"], use_container_width=True)
         
-        # Si tiene clasificación CNN, la renderizamos limpia debajo de la foto
+        # Modo Divulgativo para la Red Neuronal (Sin jerga técnica)
         if st.session_state.focus_data["probabilities"] is not None:
-            CLASE_LABELS = {"elliptical": "🔴 Elíptica", "spiral": "🌀 Espiral", "edge_on": "💫 Edge-on", "merger": "💥 Merger"}
-            st.markdown("**Resultados de la Red Neuronal (CNN):**")
+            CLASE_LABELS = {"elliptical": "🔴 Elíptica", "spiral": "🌀 Espiral", "edge_on": "💫 Disco de canto", "merger": "💥 Galaxias en Fusión"}
+            st.markdown("**🔍 Nuestro análisis visual sugiere:**")
             for cls, prob in sorted(st.session_state.focus_data["probabilities"].items(), key=lambda x: -x[1]):
                 st.progress(prob, text=f"{CLASE_LABELS.get(cls, cls)}: {prob*100:.1f}%")
-        else:
-            st.info("ℹ️ Fenómeno general del universo. Clasificación morfológica deshabilitada.")
 
-    # EL CHAT JUSTO DEBAJO DE LA IMAGEN ENFOCADA
     st.divider()
-    st.markdown(f"### 💬 Conversación sobre: {st.session_state.focus_data['title']}")
     
-    # Ensanchamos el chat: 10 partes para el centro, 1 parte de margen a cada lado
     col_chat1, col_chat2, col_chat3 = st.columns([1, 10, 1])
     with col_chat2:
-        # Aumentamos la altura para que el texto respire mejor
+        st.markdown(f"### 💬 Conversación sobre: {st.session_state.focus_data['title']}")
         chat_container = st.container(height=500)
         
         with chat_container:
-            # Generación del saludo inicial
             if len(st.session_state.chat_messages) == 1:
                 with st.spinner("Preparando tu guía astronómica personal..."):
                     if st.session_state.focus_data["probabilities"] is None:
-                        # Para imágenes de la NASA generales
                         primer_msg = "Hola. Explícame qué fenómeno asombroso se ve en esta imagen de forma muy accesible, emocionante y sin tecnicismos, aplicando tus reglas de estilo."
                     else:
-                        # Para las galaxias analizadas
-                        primer_msg = "Hola. Preséntame esta galaxia de forma divulgativa. Háblame de los resultados de nuestro análisis de forma (las probabilidades de que sea espiral, elíptica, etc.) y qué significa eso visualmente, pero explícalo como un guía de museo, SIN usar términos como CNN, Machine Learning o Red Neuronal."
+                        primer_msg = "Hola. Preséntame esta galaxia de forma divulgativa. Háblame de nuestro análisis de forma (las probabilidades de que sea espiral, elíptica, etc.) y qué significa eso visualmente, pero explícalo como un guía de museo, SIN usar términos de programación o IA."
                         
                     saludo = chat_universal(
                         st.session_state.chat_messages + [{"role": "user", "content": primer_msg}], 
@@ -238,13 +277,11 @@ else:
                     st.session_state.chat_messages.append({"role": "assistant", "content": saludo})
                     st.rerun()
 
-            # Renderizado del historial de chat
             for msg in st.session_state.chat_messages:
                 if msg["role"] != "system":
                     with st.chat_message(msg["role"]):
                         st.markdown(msg["content"])
 
-        # Input del usuario con texto más amigable
         if prompt := st.chat_input("Pregúntale a Sideral sobre este rincón del universo..."):
             with chat_container:
                 with st.chat_message("user"): 
