@@ -219,7 +219,7 @@ else:
     col_chat1, col_chat2, col_chat3 = st.columns([1, 10, 1])
     with col_chat2:
         # Aumentamos la altura para que el texto respire mejor
-        chat_container = st.container(height=600)
+        chat_container = st.container(height=400)
         
         with chat_container:
             if len(st.session_state.chat_messages) == 1:
