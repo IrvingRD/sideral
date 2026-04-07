@@ -73,8 +73,7 @@ with st.sidebar:
     # Usamos tu nueva imagen local y dejamos que se ajuste al ancho del sidebar
     st.image("logo.png", use_container_width=True)
     
-    st.markdown("### Configuración del Sistema")
-    st.info(f"🧠 Motor Analítico Activo:\n**{MODELO_FIJO.upper()}**")
+
     
     if st.button("🗑️ Limpiar historial de análisis"):
         st.session_state.clf_chat_messages = []
@@ -222,30 +221,39 @@ else:
         chat_container = st.container(height=500)
         
         with chat_container:
+            # Generación del saludo inicial
             if len(st.session_state.chat_messages) == 1:
-                with st.spinner("La IA está preparando su introducción astronómica..."):
+                with st.spinner("Preparando tu guía astronómica personal..."):
                     if st.session_state.focus_data["probabilities"] is None:
-                        primer_msg = "Hola. Explícame qué fenómeno asombroso se ve en esta imagen, aplicando tus reglas de estilo."
+                        # Para imágenes de la NASA generales
+                        primer_msg = "Hola. Explícame qué fenómeno asombroso se ve en esta imagen de forma muy accesible, emocionante y sin tecnicismos, aplicando tus reglas de estilo."
                     else:
-                        primer_msg = "Hola. Preséntame brevemente esta galaxia y los resultados de la CNN, aplicando tus reglas de estilo."
+                        # Para las galaxias analizadas
+                        primer_msg = "Hola. Preséntame esta galaxia de forma divulgativa. Háblame de los resultados de nuestro análisis de forma (las probabilidades de que sea espiral, elíptica, etc.) y qué significa eso visualmente, pero explícalo como un guía de museo, SIN usar términos como CNN, Machine Learning o Red Neuronal."
                         
-                    saludo = chat_universal(st.session_state.chat_messages + [{"role": "user", "content": primer_msg}], MODELO_FIJO)
+                    saludo = chat_universal(
+                        st.session_state.chat_messages + [{"role": "user", "content": primer_msg}], 
+                        MODELO_FIJO
+                    )
                     st.session_state.chat_messages.append({"role": "assistant", "content": saludo})
                     st.rerun()
 
+            # Renderizado del historial de chat
             for msg in st.session_state.chat_messages:
                 if msg["role"] != "system":
                     with st.chat_message(msg["role"]):
                         st.markdown(msg["content"])
 
-        if prompt := st.chat_input("Escribe tu duda astronómica aquí..."):
+        # Input del usuario con texto más amigable
+        if prompt := st.chat_input("Pregúntale a Sideral sobre este rincón del universo..."):
             with chat_container:
-                with st.chat_message("user"): st.markdown(prompt)
+                with st.chat_message("user"): 
+                    st.markdown(prompt)
             st.session_state.chat_messages.append({"role": "user", "content": prompt})
 
             with chat_container:
                 with st.chat_message("assistant"):
-                    with st.spinner("Analizando..."):
+                    with st.spinner("Explorando el cosmos para responderte..."):
                         respuesta = chat_universal(st.session_state.chat_messages, MODELO_FIJO)
                         st.markdown(respuesta)
             st.session_state.chat_messages.append({"role": "assistant", "content": respuesta})
