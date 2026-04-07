@@ -90,7 +90,7 @@ if st.session_state.chat_active and uploaded:
     
     with col_chat2:
         st.markdown("### 💬 Panel de Discusión Analítica")
-        chat_container = st.container(height=400)
+        chat_container = st.container(height=500)
         
         with chat_container:
             if len(st.session_state.clf_chat_messages) == 1:
