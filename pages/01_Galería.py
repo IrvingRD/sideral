@@ -70,15 +70,17 @@ MODELO_FIJO = "claude-opus-4-6"
 # 2. CONFIGURACIÓN GLOBAL EN SIDEBAR
 # ==========================================
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3254/3254054.png", width=50)
+    # Usamos tu nueva imagen local y dejamos que se ajuste al ancho del sidebar
+    st.image("logo.jpg", use_container_width=True)
+    
     st.markdown("### Configuración del Sistema")
     st.info(f"🧠 Motor Analítico Activo:\n**{MODELO_FIJO.upper()}**")
     
-    if st.button("🗑️ Limpiar historial de chat"):
-        st.session_state.chat_messages = []
-        st.session_state.active_chat_item = None
-        st.session_state.focus_data = None
+    if st.button("🗑️ Limpiar historial de análisis"):
+        st.session_state.clf_chat_messages = []
+        st.session_state.chat_active = False
         st.rerun()
+
     st.markdown("---")
     st.markdown("Sideral © 2026")
 
@@ -213,10 +215,11 @@ else:
     st.divider()
     st.markdown(f"### 💬 Conversación sobre: {st.session_state.focus_data['title']}")
     
-    # Creamos un contenedor más ancho para que sea cómodo chatear
-    col_chat1, col_chat2, col_chat3 = st.columns([1, 4, 1])
+    # Ensanchamos el chat: 10 partes para el centro, 1 parte de margen a cada lado
+    col_chat1, col_chat2, col_chat3 = st.columns([1, 10, 1])
     with col_chat2:
-        chat_container = st.container(height=500)
+        # Aumentamos la altura para que el texto respire mejor
+        chat_container = st.container(height=600)
         
         with chat_container:
             if len(st.session_state.chat_messages) == 1:

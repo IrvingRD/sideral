@@ -19,8 +19,11 @@ MODELO_FIJO = "claude-opus-4-6"
 # ==========================================
 # 2. CONFIGURACIÓN GLOBAL EN SIDEBAR
 # ==========================================
+
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/3254/3254054.png", width=50)
+    # Usamos tu nueva imagen local y dejamos que se ajuste al ancho del sidebar
+    st.image("logo.jpg", use_container_width=True)
+    
     st.markdown("### Configuración del Sistema")
     st.info(f"🧠 Motor Analítico Activo:\n**{MODELO_FIJO.upper()}**")
     
@@ -77,16 +80,17 @@ if uploaded:
                 st.session_state.clf_chat_messages = [{"role": "system", "content": sys_prompt}]
                 st.rerun()
 
-# ==========================================
+## ==========================================
 # 4. INTERFAZ DE CHAT DEBAJO DE LA IMAGEN
 # ==========================================
 if st.session_state.chat_active and uploaded:
     st.divider()
-    col_chat1, col_chat2, col_chat3 = st.columns([1, 4, 1])
+    # Ensanchamos la zona de interacción
+    col_chat1, col_chat2, col_chat3 = st.columns([1, 10, 1])
     
     with col_chat2:
         st.markdown("### 💬 Panel de Discusión Analítica")
-        chat_container = st.container(height=500)
+        chat_container = st.container(height=600)
         
         with chat_container:
             if len(st.session_state.clf_chat_messages) == 1:
