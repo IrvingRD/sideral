@@ -70,23 +70,47 @@ def load_image_from_url(url):
     except:
         return None, None
 # ==========================================
-# 0.2 TRADUCTOR INTELIGENTE
+# 0.2 TRADUCTOR INTELIGENTE (VERSIÓN ESTRICTA)
 # ==========================================
 @st.cache_data(ttl=3600, show_spinner=False)
 def traducir_titulo_con_ia(titulo_ingles: str) -> str:
-    """Usa el LLM para traducir dinámicamente los títulos de la NASA al español."""
+    """
+    Usa el LLM para traducir dinámicamente los títulos de la NASA al español.
+    Utiliza Prompting Estricto para evitar la 'verborrea' (chatter) del modelo.
+    """
     try:
-        # Usamos generate_text_universal para un solo disparo rápido (One-Shot)
-        # Importamos la función correcta
         from utils.llm import generate_text_universal
         
-        prompt_traduccion = f"Traduce este título astronómico de la NASA al español de forma natural y sin comillas. Solo dame el título traducido, nada más: {titulo_ingles}"
+        # PROMPT DE INGENIERÍA ESTRICTA
+        prompt_traduccion = f"""Eres un traductor API estricto para astronomía.
+Tu ÚNICA tarea es traducir el texto del inglés al español.
+
+REGLAS ESTRICTAS:
+- PROHIBIDO incluir saludos ("Hola", "Aquí tienes").
+- PROHIBIDO incluir notas, disculpas, explicaciones o correcciones ("Hmm, let me correct that").
+- PROHIBIDO usar comillas alrededor del resultado.
+- Tu respuesta debe ser EXCLUSIVAMENTE el título traducido.
+
+EJEMPLOS DE COMPORTAMIENTO:
+Usuario: "The Sombrero Galaxy from Hubble"
+Asistente: Galaxia del Sombrero vista por el Hubble
+Usuario: "M33: Triangulum Galaxy"
+Asistente: M33: Galaxia del Triángulo
+
+Ahora traduce esto:
+{titulo_ingles}
+"""
         
-        # Usamos un modelo rápido (en este caso el que tengas por defecto)
         titulo_espanol = generate_text_universal(prompt=prompt_traduccion, model_name=MODELO_FIJO)
+        
+        # Como segunda barrera de seguridad, filtramos cualquier texto que contenga "Hmm" o "correct"
+        # y forzamos a que, si el modelo falló y dio verborrea, mejor mostremos el título original
+        if "Hmm" in titulo_espanol or "correct" in titulo_espanol or "Here is" in titulo_espanol:
+            return titulo_ingles 
+            
         return titulo_espanol.strip()
     except:
-        return titulo_ingles # Si la IA falla, devolvemos el original para que no crashee
+        return titulo_ingles
 # ==========================================
 # 1. ESTADO DE LA SESIÓN
 # ==========================================
