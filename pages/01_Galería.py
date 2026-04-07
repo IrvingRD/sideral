@@ -69,7 +69,24 @@ def load_image_from_url(url):
         return img, np.array(img)
     except:
         return None, None
-
+# ==========================================
+# 0.2 TRADUCTOR INTELIGENTE
+# ==========================================
+@st.cache_data(ttl=3600, show_spinner=False)
+def traducir_titulo_con_ia(titulo_ingles: str) -> str:
+    """Usa el LLM para traducir dinámicamente los títulos de la NASA al español."""
+    try:
+        # Usamos generate_text_universal para un solo disparo rápido (One-Shot)
+        # Importamos la función correcta
+        from utils.llm import generate_text_universal
+        
+        prompt_traduccion = f"Traduce este título astronómico de la NASA al español de forma natural y sin comillas. Solo dame el título traducido, nada más: {titulo_ingles}"
+        
+        # Usamos un modelo rápido (en este caso el que tengas por defecto)
+        titulo_espanol = generate_text_universal(prompt=prompt_traduccion, model_name=MODELO_FIJO)
+        return titulo_espanol.strip()
+    except:
+        return titulo_ingles # Si la IA falla, devolvemos el original para que no crashee
 # ==========================================
 # 1. ESTADO DE LA SESIÓN
 # ==========================================
