@@ -1,48 +1,786 @@
 {
-  "galaxies": [
-    {
-      "id": "IC1101",
-      "name": "IC 1101",
-      "designation": "IC 1101",
-      "class": "elliptical",
-      "distance_ly": "23 ly",
-      "constellation": "Virgo",
-      "credit": "ESA/Hubble & NASA",
-      "description": "Galaxia más grande conocida en el universo.",
-      "image_file": "elliptical/ic-1101.jpg"
-    },
-    {
-      "id": "M103",
-      "name": "Messier 103",
-      "designation": "Galaxia del sombrero",
-      "class": "edge_on",
-      "distance_ly": "42 millones",
-      "constellation": "Coma Berenices",
-      "credit": "ESA/Hubble & NASA",
-      "description": "Conocida como la galaxia del sombrero por su forma distintiva. ",
-      "image_file": "edge_on/sombrero_galaxy.jpg"
-    },
-    {
-      "id": "M53",
-      "name": "M53",
-      "designation": "Galaxia del remolino",
-      "class": "spiral",
-      "distance_ly": "42 millones",
-      "constellation": "Coma Berenices",
-      "credit": "ESA/Hubble & NASA",
-      "description": "Conocida como la galaxia del remolino por su forma distintiva. ",
-      "image_file": "spiral/whirpool_galaxy.jpg"
-    },
-    { 
-      "id": "NGC???",
-      "name": "Galaxias de las antenas",
-      "designation": "Galaxias de las antenas",
-      "class": "merger",
-      "distance_ly": "42 millones",
-      "constellation": "Coma Berenices",
-      "credit": "ESA/Hubble & NASA",
-      "description": "Conocida como la galaxia de las antenas por su forma distintiva. ",
-      "image_file": "merger/antennae_galaxies.jpg"
-    }
-  ]
-}
+    "galaxies": [
+        {
+            "id": "M51",
+            "name": "Galaxia del Remolino",
+            "designation": "M51 / NGC 5194",
+            "class": "spiral",
+            "distance_ly": "23,000,000",
+            "constellation": "Canes Venatici",
+            "credit": "ESA/Hubble & NASA",
+            "description": "Una de las galaxias espirales de gran diseño más famosas del cielo. Sus brazos prominentes son fábricas de estrellas impulsadas por la interacción con su compañera menor, NGC 5195.",
+            "image_file": "spiral/whirpool_galaxy.jpg"
+        },
+        {
+            "id": "M104",
+            "name": "Galaxia del Sombrero",
+            "designation": "M104 / NGC 4594",
+            "class": "edge_on",
+            "distance_ly": "31,000,000",
+            "constellation": "Virgo",
+            "credit": "ESA/Hubble & NASA",
+            "description": "Famosa por su núcleo brillante y un denso anillo de polvo oscuro que la cruza perfectamente de canto, dándole la apariencia de un sombrero mexicano.",
+            "image_file": "edge_on/sombrero_galaxy.jpg"
+        },
+        {
+            "id": "NGC4038",
+            "name": "Galaxias de las Antenas",
+            "designation": "NGC 4038 / NGC 4039",
+            "class": "merger",
+            "distance_ly": "45,000,000",
+            "constellation": "Corvus",
+            "credit": "ESA/Hubble & NASA",
+            "description": "Un espectacular choque cósmico. Dos galaxias en proceso de fusión donde la gravedad ha arrancado inmensas colas de gas y estrellas que parecen las antenas de un insecto.",
+            "image_file": "merger/antennae_galaxies.jpg"
+        },
+        {
+            "id": "IC1101",
+            "name": "IC 1101",
+            "designation": "Abell 2029 BCG",
+            "class": "elliptical",
+            "distance_ly": "1,040,000,000",
+            "constellation": "Serpens",
+            "credit": "ESA/Hubble & NASA",
+            "description": "Una galaxia elíptica supergigante en el centro del cúmulo Abell 2029. Es una de las galaxias más masivas y colosales jamás descubiertas en el universo conocido.",
+            "image_file": "elliptical/ic-1101.jpg"
+        },
+        {
+            "id": "588018055656702161",
+            "name": "SDSS 588018055656702161",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588018055656702161.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017991222362357",
+            "name": "SDSS 588017991222362357",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588017991222362357.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587734621633446089",
+            "name": "SDSS 587734621633446089",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587734621633446089.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017730840428645",
+            "name": "SDSS 588017730840428645",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588017730840428645.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587730847966167545",
+            "name": "SDSS 587730847966167545",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587730847966167545.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739707409170668",
+            "name": "SDSS 587739707409170668",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587739707409170668.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587741817851674654",
+            "name": "SDSS 587741817851674654",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587741817851674654.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736916758233444",
+            "name": "SDSS 587736916758233444",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587736916758233444.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736478125129867",
+            "name": "SDSS 587736478125129867",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587736478125129867.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742550137307283",
+            "name": "SDSS 587742550137307283",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587742550137307283.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587725470662001003",
+            "name": "SDSS 587725470662001003",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587725470662001003.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739721912483958",
+            "name": "SDSS 587739721912483958",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587739721912483958.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587731500259213415",
+            "name": "SDSS 587731500259213415",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587731500259213415.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017730301198375",
+            "name": "SDSS 588017730301198375",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588017730301198375.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587725074458345486",
+            "name": "SDSS 587725074458345486",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587725074458345486.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736783072002327",
+            "name": "SDSS 587736783072002327",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587736783072002327.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733605330583800",
+            "name": "SDSS 587733605330583800",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587733605330583800.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588015507680723008",
+            "name": "SDSS 588015507680723008",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588015507680723008.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739609176670317",
+            "name": "SDSS 587739609176670317",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587739609176670317.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733409912193215",
+            "name": "SDSS 587733409912193215",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587733409912193215.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588016839636418585",
+            "name": "SDSS 588016839636418585",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588016839636418585.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739720837955751",
+            "name": "SDSS 587739720837955751",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587739720837955751.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736783074361707",
+            "name": "SDSS 587736783074361707",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587736783074361707.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017978878001287",
+            "name": "SDSS 588017978878001287",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_588017978878001287.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587741721752436945",
+            "name": "SDSS 587741721752436945",
+            "designation": "Catálogo SDSS",
+            "class": "merger",
+            "distance_ly": "Desconocida",
+            "image_file": "merger/merger_587741721752436945.jpg",
+            "description": "Magnífico ejemplo de una galaxia en proceso de fusión, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587731889502748827",
+            "name": "SDSS 587731889502748827",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587731889502748827.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017948272558154",
+            "name": "SDSS 588017948272558154",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_588017948272558154.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587731873924907156",
+            "name": "SDSS 587731873924907156",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587731873924907156.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742774028206161",
+            "name": "SDSS 587742774028206161",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587742774028206161.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587735343179432449",
+            "name": "SDSS 587735343179432449",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587735343179432449.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017726545199341",
+            "name": "SDSS 588017726545199341",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_588017726545199341.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588023670244180044",
+            "name": "SDSS 588023670244180044",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_588023670244180044.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587735695379529846",
+            "name": "SDSS 587735695379529846",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587735695379529846.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733604804460723",
+            "name": "SDSS 587733604804460723",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587733604804460723.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739845925142723",
+            "name": "SDSS 587739845925142723",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587739845925142723.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587729409148649695",
+            "name": "SDSS 587729409148649695",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587729409148649695.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587729229300564173",
+            "name": "SDSS 587729229300564173",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587729229300564173.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739406798487790",
+            "name": "SDSS 587739406798487790",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587739406798487790.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587735743150293247",
+            "name": "SDSS 587735743150293247",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587735743150293247.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587731889503862933",
+            "name": "SDSS 587731889503862933",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587731889503862933.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736945203347788",
+            "name": "SDSS 587736945203347788",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587736945203347788.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588010879845204202",
+            "name": "SDSS 588010879845204202",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_588010879845204202.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017712050864353",
+            "name": "SDSS 588017712050864353",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_588017712050864353.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733604800004331",
+            "name": "SDSS 587733604800004331",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587733604800004331.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742062126694675",
+            "name": "SDSS 587742062126694675",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587742062126694675.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587726032774758544",
+            "name": "SDSS 587726032774758544",
+            "designation": "Catálogo SDSS",
+            "class": "edge_on",
+            "distance_ly": "Desconocida",
+            "image_file": "edge_on/edge_on_587726032774758544.jpg",
+            "description": "Magnífico ejemplo de una galaxia vista de canto, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587726031179481239",
+            "name": "SDSS 587726031179481239",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587726031179481239.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587741391572828338",
+            "name": "SDSS 587741391572828338",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587741391572828338.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588013383820902509",
+            "name": "SDSS 588013383820902509",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_588013383820902509.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739303144718526",
+            "name": "SDSS 587739303144718526",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587739303144718526.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017948819128427",
+            "name": "SDSS 588017948819128427",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_588017948819128427.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587738573532889352",
+            "name": "SDSS 587738573532889352",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587738573532889352.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588848900980670532",
+            "name": "SDSS 588848900980670532",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_588848900980670532.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017112371560582",
+            "name": "SDSS 588017112371560582",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_588017112371560582.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742013272621156",
+            "name": "SDSS 587742013272621156",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587742013272621156.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587735697521246296",
+            "name": "SDSS 587735697521246296",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587735697521246296.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742189907345574",
+            "name": "SDSS 587742189907345574",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587742189907345574.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587732771584409767",
+            "name": "SDSS 587732771584409767",
+            "designation": "Catálogo SDSS",
+            "class": "spiral",
+            "distance_ly": "Desconocida",
+            "image_file": "spiral/spiral_587732771584409767.jpg",
+            "description": "Magnífico ejemplo de una galaxia de espiral, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733399183163530",
+            "name": "SDSS 587733399183163530",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587733399183163530.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588010879844155557",
+            "name": "SDSS 588010879844155557",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588010879844155557.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587738946145550461",
+            "name": "SDSS 587738946145550461",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587738946145550461.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587738946679537775",
+            "name": "SDSS 587738946679537775",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587738946679537775.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733410442838135",
+            "name": "SDSS 587733410442838135",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587733410442838135.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587732136457994390",
+            "name": "SDSS 587732136457994390",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587732136457994390.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588007004164522091",
+            "name": "SDSS 588007004164522091",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588007004164522091.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017571388653677",
+            "name": "SDSS 588017571388653677",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588017571388653677.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587736542566416585",
+            "name": "SDSS 587736542566416585",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587736542566416585.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588018090550034986",
+            "name": "SDSS 588018090550034986",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588018090550034986.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733441052148000",
+            "name": "SDSS 587733441052148000",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587733441052148000.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739132415049886",
+            "name": "SDSS 587739132415049886",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587739132415049886.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587739304213414059",
+            "name": "SDSS 587739304213414059",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587739304213414059.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587729227150000242",
+            "name": "SDSS 587729227150000242",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587729227150000242.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587738948819746842",
+            "name": "SDSS 587738948819746842",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587738948819746842.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587732053241757917",
+            "name": "SDSS 587732053241757917",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587732053241757917.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587733440512262389",
+            "name": "SDSS 587733440512262389",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587733440512262389.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587732770507522057",
+            "name": "SDSS 587732770507522057",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587732770507522057.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588848899373072458",
+            "name": "SDSS 588848899373072458",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588848899373072458.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588010878225219637",
+            "name": "SDSS 588010878225219637",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588010878225219637.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587731512080859257",
+            "name": "SDSS 587731512080859257",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587731512080859257.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "588017112367824952",
+            "name": "SDSS 588017112367824952",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_588017112367824952.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587742188829868127",
+            "name": "SDSS 587742188829868127",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587742188829868127.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        },
+        {
+            "id": "587738409793749098",
+            "name": "SDSS 587738409793749098",
+            "designation": "Catálogo SDSS",
+            "class": "elliptical",
+            "distance_ly": "Desconocida",
+            "image_file": "elliptical/elliptical_587738409793749098.jpg",
+            "description": "Magnífico ejemplo de una galaxia elíptica, clasificada con alta precisión por voluntarios astronómicos."
+        }
+        ]
+      }
