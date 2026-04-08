@@ -14,16 +14,28 @@ from utils.prompt_engineering import stronger_prompt
 st.set_page_config(page_title="Galería — Sideral", layout="wide")
 
 # ==========================================
-# 0. INYECCIÓN DE CSS (HACER PESTAÑAS MÁS GRANDES)
+# 0. INYECCIÓN DE CSS 
 # ==========================================
 st.markdown("""
 <style>
-    /* Hacemos que las pestañas (Tabs) de Streamlit sean mucho más grandes */
+    /* 1. Aumentar tamaño de la fuente y padding de las pestañas */
     button[data-baseweb="tab"] {
-        font-size: 1.3rem !important; /* Texto más grande */
-        font-weight: 600 !important; /* Texto en negrita */
+        font-size: 1.4rem !important; /* Texto mucho más grande */
+        font-weight: 600 !important; /* Letra negrita */
         padding-top: 1rem !important; /* Más espacio arriba */
         padding-bottom: 1rem !important; /* Más espacio abajo */
+        color: #94A3B8 !important; /* Color gris claro por defecto para no cansar la vista */
+    }
+    
+    /* 2. Efecto cuando la pestaña está ACTIVA (seleccionada) */
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #3B82F6 !important; /* Azul brillante Sideral */
+        border-bottom-color: #3B82F6 !important; /* Línea azul gruesa debajo */
+    }
+    
+    /* 3. Efecto Hover (cuando el usuario pasa el mouse) */
+    button[data-baseweb="tab"]:hover {
+        color: #E2E8F0 !important; /* El texto se ilumina en blanco al pasar el mouse */
     }
 </style>
 """, unsafe_allow_html=True)
@@ -148,7 +160,7 @@ if st.session_state.focus_data is None:
     tu asistente inteligente, listo para responder todas tus dudas.
     """)
 
-    tab_galaxias, tab_nasa = st.tabs(["🔭 Clasificación de Galaxias", "🚀 Fenómenos del Universo"])
+    tab_galaxias, tab_nasa = st.tabs(["🔭 **Clasificación de Galaxias**", "🚀 **Fenómenos del Universo**"])
 
     model, model_metadata = load_model_and_metadata()
     CLASE_LABELS = {"elliptical": "🔴 Elíptica", "spiral": "🌀 Espiral", "edge_on": "💫 Disco de Canto", "merger": "💥 Galaxias en Fusión"}

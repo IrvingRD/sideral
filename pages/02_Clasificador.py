@@ -8,6 +8,33 @@ from utils.llm import MODEL_REGISTRY, chat_universal, generate_text_universal
 st.set_page_config(page_title="Sideral — Observatorio", layout="wide")
 
 # ==========================================
+# 0. INYECCIÓN DE CSS (HACER PESTAÑAS MÁS GRANDES)
+# ==========================================
+st.markdown("""
+<style>
+    /* Aumentar tamaño de la fuente y padding de las pestañas */
+    button[data-baseweb="tab"] {
+        font-size: 1.3rem !important; /* Texto más grande */
+        font-weight: 600 !important; /* Negrita */
+        padding-top: 1rem !important; /* Más espacio arriba */
+        padding-bottom: 1rem !important; /* Más espacio abajo */
+        color: #94A3B8; /* Color gris claro por defecto */
+    }
+    
+    /* Efecto cuando la pestaña está activa (seleccionada) */
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #3B82F6 !important; /* Color azul brillante Sideral */
+        border-bottom-color: #3B82F6 !important; /* Línea azul debajo */
+    }
+    
+    /* Efecto Hover (cuando el usuario pasa el mouse) */
+    button[data-baseweb="tab"]:hover {
+        color: #E2E8F0 !important; /* Se aclara el texto al pasar el mouse */
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ==========================================
 # 1. ESTADO DE LA SESIÓN
 # ==========================================
 if "clf_chat_messages" not in st.session_state: st.session_state.clf_chat_messages = []
