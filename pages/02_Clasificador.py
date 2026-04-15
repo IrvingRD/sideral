@@ -7,45 +7,40 @@ from utils.llm import MODEL_REGISTRY, chat_universal, generate_text_universal
 
 st.set_page_config(page_title="Sideral — Observatorio", layout="wide")
 
-# ==========================================
-# 0. INYECCIÓN DE CSS (HACER PESTAÑAS MÁS GRANDES)
-# ==========================================
+# CUSTOM TAB STYLING
 st.markdown("""
 <style>
-    /* Aumentar tamaño de la fuente y padding de las pestañas */
     button[data-baseweb="tab"] {
-        font-size: 1.3rem !important; /* Texto más grande */
-        font-weight: 600 !important; /* Negrita */
-        padding-top: 1rem !important; /* Más espacio arriba */
-        padding-bottom: 1rem !important; /* Más espacio abajo */
-        color: #94A3B8; /* Color gris claro por defecto */
+        font-size: 1.3rem !important;
+        font-weight: 600 !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        color: #94A3B8 !important;
     }
-    
-    /* Efecto cuando la pestaña está activa (seleccionada) */
+
     button[data-baseweb="tab"][aria-selected="true"] {
-        color: #3B82F6 !important; /* Color azul brillante Sideral */
-        border-bottom-color: #3B82F6 !important; /* Línea azul debajo */
+        color: #3B82F6 !important;
+        border-bottom-color: #3B82F6 !important;
     }
-    
-    /* Efecto Hover (cuando el usuario pasa el mouse) */
+
     button[data-baseweb="tab"]:hover {
-        color: #E2E8F0 !important; /* Se aclara el texto al pasar el mouse */
+        color: #E2E8F0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# 1. ESTADO DE LA SESIÓN
-# ==========================================
-if "clf_chat_messages" not in st.session_state: st.session_state.clf_chat_messages = []
-if "last_uploaded_file" not in st.session_state: st.session_state.last_uploaded_file = None
-if "chat_active" not in st.session_state: st.session_state.chat_active = False
+# SESSION STATE
+if "clf_chat_messages" not in st.session_state:
+    st.session_state.clf_chat_messages = []
+if "last_uploaded_file" not in st.session_state:
+    st.session_state.last_uploaded_file = None
+if "chat_active" not in st.session_state:
+    st.session_state.chat_active = False
 
 MODELO_FIJO = "claude-opus-4-6"
 
-# ==========================================
-# 2. CONFIGURACIÓN GLOBAL EN SIDEBAR
-# ==========================================
+# SIDEBAR
+
 
 with st.sidebar:
     st.image("logo.png", use_container_width=True)
@@ -60,25 +55,22 @@ with st.sidebar:
 
 model, model_metadata = load_model_and_metadata()
 
-# ==========================================
-# 3. INTERFAZ PRINCIPAL CENTRADA
-# ==========================================
+# MAIN INTERFACE
 st.title("🔭 Observatorio Inteligente")
 st.markdown("Sube una imagen del universo. Nuestro sistema visual analizará su forma, y luego podrás platicar con Sideral para descubrir los secretos de tu fotografía.")
 
 uploaded = st.file_uploader("Sube la fotografía de una galaxia. Para un resultado óptimo, usa imágenes de alta resolución y donde la galaxia esté cerca del centro (JPG, PNG).", type=["jpg", "jpeg", "png"])
 
 if uploaded:
-    # Reiniciar estado si se sube una nueva imagen
+    # Reset state on new upload
     if st.session_state.last_uploaded_file != uploaded.name:
         st.session_state.clf_chat_messages = []
         st.session_state.chat_active = False
         st.session_state.last_uploaded_file = uploaded.name
 
-    # CENTRAMOS LA IMAGEN (DISEÑO 1/4 - 2/4 - 1/4)
     st.divider()
     c1, c2, c3 = st.columns([1, 2, 1])
-    
+
     with c2:
         img = Image.open(uploaded).convert("RGB")
         st.image(img, caption="Imagen recibida desde tu dispositivo", use_container_width=True)
@@ -101,30 +93,26 @@ if uploaded:
             if st.button("💬 Platicar con Sideral sobre tu imagen", use_container_width=True):
                 st.session_state.chat_active = True
                 from utils.prompt_engineering import stronger_prompt
-                # Instrucción estricta para que mantenga el rol divulgativo
                 sys_prompt = f"[CONTEXTO]\nEl usuario ha subido una fotografía. Nuestro sistema visual predice que es: {predicted_class}\nCerteza del sistema:\n{probs_str}\n\n[REGLAS FUNDAMENTALES]\n{stronger_prompt}\nIMPORTANTE: Habla siempre en términos astronómicos o divulgativos. NUNCA menciones palabras como 'CNN', 'Machine Learning', 'Tensores' o 'Red Neuronal'. Si hablas de las probabilidades, refiérete a ellas como 'lo que sugiere nuestra observación visual'."
                 st.session_state.clf_chat_messages = [{"role": "system", "content": sys_prompt}]
                 st.rerun()
 
-## ==========================================
-# 4. INTERFAZ DE CHAT DEBAJO DE LA IMAGEN
-# ==========================================
+# CHAT INTERFACE
 if st.session_state.chat_active and uploaded:
     st.divider()
-    # Ensanchamos la zona de interacción
     col_chat1, col_chat2, col_chat3 = st.columns([1, 10, 1])
-    
+
     with col_chat2:
         st.markdown("### 💬 Conversación con Sideral")
         chat_container = st.container(height=500)
-        
+
         with chat_container:
-            # Generación Proactiva Divulgativa
+            # Generate initial greeting
             if len(st.session_state.clf_chat_messages) == 1:
                 with st.spinner("Sideral está preparando su explicación..."):
                     primer_msg = "Hola. Explícame de forma divulgativa, apasionante y muy accesible qué tipo de galaxia crees que te he mostrado, basándote en el análisis visual. Recuerda no usar términos técnicos de IA."
                     saludo = chat_universal(
-                        st.session_state.clf_chat_messages + [{"role": "user", "content": primer_msg}], 
+                        st.session_state.clf_chat_messages + [{"role": "user", "content": primer_msg}],
                         MODELO_FIJO
                     )
                     st.session_state.clf_chat_messages.append({"role": "assistant", "content": saludo})
@@ -137,7 +125,8 @@ if st.session_state.chat_active and uploaded:
 
         if prompt := st.chat_input("Escribe aquí tu duda sobre el universo..."):
             with chat_container:
-                with st.chat_message("user"): st.markdown(prompt)
+                with st.chat_message("user"):
+                    st.markdown(prompt)
             st.session_state.clf_chat_messages.append({"role": "user", "content": prompt})
 
             with chat_container:
