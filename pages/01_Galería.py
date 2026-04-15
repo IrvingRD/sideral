@@ -41,7 +41,7 @@ def fetch_curated_apod(category="galaxy", count=6):
     nasa_key = os.getenv("NASA_API_KEY", "DEMO_KEY")
     url = f"https://api.nasa.gov/planetary/apod?api_key={nasa_key}&count=50"
     try:
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=30)
         if response.status_code == 200:
             data = response.json()
             valid_items = []
