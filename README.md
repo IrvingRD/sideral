@@ -76,6 +76,10 @@ streamlit run Sideral.py
 
 La aplicación se abrirá en tu navegador (típicamente en `http://localhost:8501`)
 
+## Despliegue en línea
+
+¡Existe una versión alojada en Streamlit Cloud! Puedes consultar a Sideral en este link: https://sideral-dcdg30.streamlit.app/
+
 ## 📂 Estructura del Proyecto
 
 ```
@@ -128,14 +132,6 @@ El objetivo es conectar a las personas con la maravilla del universo, no con la 
 4. **Contexto**: Se calcula el nivel de certeza en cada categoría
 5. **Narración**: Claude o GPT generan una explicación accesible basada en la predicción
 
-## 🌐 Desplegar en Línea
-
-Sideral puede desplegarse en servicios como:
-- **[Streamlit Cloud](https://streamlit.io/cloud)**: Gratuito y simple
-- **[Hugging Face Spaces](https://huggingface.co/spaces)**: Excelente para modelos
-- **[Heroku](https://www.heroku.com/)** o **[Railway](https://railway.app/)**: Con contenedores Docker
-
-Consulta la documentación de cada plataforma para instrucciones específicas.
 
 ## 🤝 Contribuciones
 
