@@ -1,30 +1,45 @@
 sideral/
-  ├── .devcontainer/                                                                                                                                                                            
-  │   └── devcontainer.json                                 
-  ├── .streamlit/                                                                                                                                                                               
-  │   └── config.toml                                       
-  ├── data/
-  │   ├── gallery_metadata.json
-  │   └── images/                                                                                                                                                                               
-  │       ├── edge_on/        (23 imágenes de galaxias de canto)
-  │       ├── elliptical/     (25 imágenes de galaxias elípticas)                                                                                                                               
-  │       ├── merger/         (26 imágenes de fusiones de galaxias)
-  │       └── spiral/         (25 imágenes de galaxias espirales)                                                                                                                               
-  ├── pages/                                                
-  │   ├── 01_Galería.py       (Galería interactiva + fenómenos NASA)                                                                                                                            
-  │   └── 02_Clasificador.py  (Uploader + clasificador en vivo)                                                                                                                                 
-  ├── utils/                                                                                                                                                                                    
-  │   ├── __init__.py                                                                                                                                                                           
-  │   ├── llm.py              (Cliente universal multi-proveedor LLM)                                                                                                                           
-  │   ├── model_loader.py     (Descarga y caché de modelo CNN)                                                                                                                                  
-  │   ├── prompt_engineering.py (System prompts y reglas de comportamiento)                                                                                                                     
-  │   └── secrets.py          (Manejo de credenciales)                                                                                                                                                                                                                                                                                                                                                                                                              
-  ├── .gitignore                                                                                                                                                                                
-  ├── .python-version                                                                                                                     
-  ├── LICENSE                                                                                                                                                                                   
-  ├── README.md
-  ├── requirements.txt                                                                                                                                                                          
-  ├── runtime.txt                                           
-  ├── Sideral.py              (Página de inicio)
-  ├── pyproject.toml                                                                                                                                                                            
-  ├── uv.lock
+├── .gitignore
+├── LICENSE
+├── README.md
+├── Sideral.py
+├── data/
+│   ├── gallery_metadata.json
+│   └── images/
+│       ├── edge_on/
+│       │   ├── galaxias
+│       ├── elliptical/
+│       │   ├── galaxias
+│       │   └── 
+│       ├── merger/
+│       │   ├── galaxias
+│       └── spiral/
+│           ├── galaxias
+├── developing/
+│   ├── data/
+│   │   ├── Column_description_and_format.txt
+│   │   ├── filemapping.csv
+│   │   ├── gz2_labels_clean.csv
+│   │   ├── images_efficientnet/
+│   │   │   ├── 5065 imágenes
+│   │   ├── models/
+│   │   │   ├── efficientnet_gz2_fase2_best.keras
+│   │   │   └── model_metadata.json
+│   │   ├── results.txt
+│   │   └── results_public.txt
+│   └── notebooks/
+│       ├── Datos_EDA.ipynb
+│       ├── EfficientNetSideral.ipynb
+│       ├── Hugging_Face.ipynb
+│       └── generar_galería.py
+├── pages/
+│   ├── 01_Galería.py
+│   └── 02_Clasificador.py
+├── pyproject.toml
+├── requirements.txt
+└── utils/
+    ├── __init__.py
+    ├── llm.py
+    ├── model_loader.py
+    ├── prompt_engineering.py
+    └── secrets.py

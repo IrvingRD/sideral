@@ -1,0 +1,24 @@
+{
+  "classes": [
+    "elliptical",
+    "edge_on",
+    "merger",
+    "spiral"
+  ],
+  "class_to_idx": {
+    "elliptical": 0,
+    "edge_on": 1,
+    "merger": 2,
+    "spiral": 3
+  },
+  "img_size": 224,
+  "threshold_main": 0.9,
+  "threshold_merger": 0.7,
+  "val_accuracy": 0.9144,
+  "test_recall": {
+    "elliptical": 0.916,
+    "edge_on": 0.984,
+    "merger": 0.8,
+    "spiral": 0.899
+  }
+}
